@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@asyncapi/cli": "^2.11.1"
+  },
+  "name": "notify-asyncapi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "asyncapi generate fromTemplate templates.yml @asyncapi/html-template@3.1.0 --use-new-generator"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

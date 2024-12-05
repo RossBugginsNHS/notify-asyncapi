@@ -1,0 +1,59 @@
+asyncapi: 3.0.0
+info:
+  title: NHS Notify Template Management
+  version: 0.0.1
+  description: |
+    Template Management for NHS Notify
+  contact:
+    name: Ross Buggins
+    email: ross.buggins@nhs.net
+  tags:
+    - name: Templates
+      description: Template Management
+  externalDocs: 
+    description: Additional docs
+    url: https://nhsdigital.github.io/nhs-notify/
+
+servers:
+  production:
+    protocol: https
+    host: api.notify.com
+    description: server description
+
+defaultContentType: application/json
+
+operations:
+  operation:
+    title: Template Created
+    action: receive
+    channel:
+      $ref: '#/channels/templateManagements'
+
+channels:
+  templateManagements:
+    title: raaa
+    messages: 
+      TemplatedCreated:
+        $ref: '#/components/messages/TemplatedCreated'
+
+components:
+  messages:
+      TemplatedCreated:
+        name: TemplatedCreated
+        title: A template has been created
+        summary: Async Request for a Entity
+        # schemaFormat: application/vnd.aai.asyncapi;version=2.6.0
+        payload:
+          $ref: '#/components/schemas/Template'
+  
+  schemas:
+    Template:
+      type: object
+      properties:
+        templateId:
+          type: string
+        name: 
+          type: string
+        customer:
+          type: string
+      
