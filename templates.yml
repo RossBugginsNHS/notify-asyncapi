@@ -15,6 +15,11 @@ info:
     url: https://nhsdigital.github.io/nhs-notify/
 
 servers:
+  staging:
+    protocol: https
+    host: dev.api.notify.com
+    description: server description
+
   production:
     protocol: https
     host: api.notify.com
@@ -23,29 +28,61 @@ servers:
 defaultContentType: application/json
 
 operations:
-  operation:
-    title: Template Created
+  templateManagement:
+    title: Template Management Operations
     action: receive
     channel:
-      $ref: '#/channels/templateManagements'
+      $ref: '#/channels/templateManagement'
+
+  templateAssignment:
+    title: Template Assignment Operations
+    action: receive
+    channel:
+      $ref: '#/channels/templateAssignment'
 
 channels:
-  templateManagements:
-    title: raaa
+  templateManagement:
+    title: Template Management
     messages: 
       TemplatedCreated:
         $ref: '#/components/messages/TemplatedCreated'
+      TemplatedUpdated:
+        $ref: '#/components/messages/TemplatedUpdated'
+      TemplatedDeleted:
+        $ref: '#/components/messages/TemplatedDeleted'  
+  
+  templateAssignment:
+    title: Template Assignment
+    messages: 
+      TemplateAssigned:
+        $ref: '#/components/messages/TemplateAssigned'              
 
 components:
   messages:
       TemplatedCreated:
-        name: TemplatedCreated
+        name: Templated Created
         title: A template has been created
         summary: Async Request for a Entity
-        # schemaFormat: application/vnd.aai.asyncapi;version=2.6.0
         payload:
           $ref: '#/components/schemas/Template'
-  
+      TemplatedUpdated:
+        name: Templated Updated
+        title: A template has been updated
+        summary: Async Request for a Entity
+        payload:
+          $ref: '#/components/schemas/Template'  
+      TemplatedDeleted:
+        name: Templated Deleted
+        title: A template has been deleted
+        summary: Async Request for a Entity
+        payload:
+          $ref: '#/components/schemas/Template'    
+      TemplateAssigned:
+        name: Templated Assigned
+        title: A template has been assigned to a routing plan
+        summary: Async Request for a Entity
+        payload:
+          $ref: '#/components/schemas/TemplateAssigned'                  
   schemas:
     Template:
       type: object
@@ -56,4 +93,10 @@ components:
           type: string
         customer:
           type: string
-      
+    TemplateAssigned:
+      type: object
+      properties:
+        templateId:
+          type: string
+        routingPlanId: 
+          type: string 
