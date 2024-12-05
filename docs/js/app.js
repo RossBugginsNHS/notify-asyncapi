@@ -21,6 +21,11 @@
     }
   },
   "servers": {
+    "staging": {
+      "protocol": "https",
+      "host": "dev.api.notify.com",
+      "description": "server description"
+    },
     "production": {
       "protocol": "https",
       "host": "api.notify.com",
@@ -29,14 +34,14 @@
   },
   "defaultContentType": "application/json",
   "operations": {
-    "operation": {
-      "title": "Template Created",
+    "templateManagement": {
+      "title": "Template Management Operations",
       "action": "receive",
       "channel": {
-        "title": "raaa",
+        "title": "Template Management",
         "messages": {
           "TemplatedCreated": {
-            "name": "TemplatedCreated",
+            "name": "Templated Created",
             "title": "A template has been created",
             "summary": "Async Request for a Entity",
             "payload": {
@@ -58,22 +63,72 @@
               "x-parser-schema-id": "Template"
             },
             "x-parser-unique-object-id": "TemplatedCreated"
+          },
+          "TemplatedUpdated": {
+            "name": "Templated Updated",
+            "title": "A template has been updated",
+            "summary": "Async Request for a Entity",
+            "payload": "$ref:$.operations.templateManagement.channel.messages.TemplatedCreated.payload",
+            "x-parser-unique-object-id": "TemplatedUpdated"
+          },
+          "TemplatedDeleted": {
+            "name": "Templated Deleted",
+            "title": "A template has been deleted",
+            "summary": "Async Request for a Entity",
+            "payload": "$ref:$.operations.templateManagement.channel.messages.TemplatedCreated.payload",
+            "x-parser-unique-object-id": "TemplatedDeleted"
           }
         },
-        "x-parser-unique-object-id": "templateManagements"
+        "x-parser-unique-object-id": "templateManagement"
       },
-      "x-parser-unique-object-id": "operation"
+      "x-parser-unique-object-id": "templateManagement"
+    },
+    "templateAssignment": {
+      "title": "Template Assignment Operations",
+      "action": "receive",
+      "channel": {
+        "title": "Template Assignment",
+        "messages": {
+          "TemplateAssigned": {
+            "name": "Templated Assigned",
+            "title": "A template has been assigned to a routing plan",
+            "summary": "Async Request for a Entity",
+            "payload": {
+              "type": "object",
+              "properties": {
+                "templateId": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-4>"
+                },
+                "routingPlanId": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-5>"
+                }
+              },
+              "x-parser-schema-id": "TemplateAssigned"
+            },
+            "x-parser-unique-object-id": "TemplateAssigned"
+          }
+        },
+        "x-parser-unique-object-id": "templateAssignment"
+      },
+      "x-parser-unique-object-id": "templateAssignment"
     }
   },
   "channels": {
-    "templateManagements": "$ref:$.operations.operation.channel"
+    "templateManagement": "$ref:$.operations.templateManagement.channel",
+    "templateAssignment": "$ref:$.operations.templateAssignment.channel"
   },
   "components": {
     "messages": {
-      "TemplatedCreated": "$ref:$.operations.operation.channel.messages.TemplatedCreated"
+      "TemplatedCreated": "$ref:$.operations.templateManagement.channel.messages.TemplatedCreated",
+      "TemplatedUpdated": "$ref:$.operations.templateManagement.channel.messages.TemplatedUpdated",
+      "TemplatedDeleted": "$ref:$.operations.templateManagement.channel.messages.TemplatedDeleted",
+      "TemplateAssigned": "$ref:$.operations.templateAssignment.channel.messages.TemplateAssigned"
     },
     "schemas": {
-      "Template": "$ref:$.operations.operation.channel.messages.TemplatedCreated.payload"
+      "Template": "$ref:$.operations.templateManagement.channel.messages.TemplatedCreated.payload",
+      "TemplateAssigned": "$ref:$.operations.templateAssignment.channel.messages.TemplateAssigned.payload"
     }
   },
   "x-parser-spec-parsed": true,
